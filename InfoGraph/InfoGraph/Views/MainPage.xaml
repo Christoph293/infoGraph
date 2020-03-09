@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls ="clr-namespace:InfoGraph.Controls"
+             xmlns:converters ="clr-namespace:InfoGraph.Converters"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             mc:Ignorable="d"
+             Title="infoGraph"
+             x:Class="InfoGraph.Views.MainPage">
+    <CarouselPage.Resources>
+        <converters:ReverseBooleanConverter x:Key="RevBoolConverter"/>
+    </CarouselPage.Resources>
+    <CarouselPage.ToolbarItems>
+        <ToolbarItem Name="Load/Save Web" Order="Secondary" Command="{Binding NavigateToWebCommand}"/>
+        <ToolbarItem Name="Load/Save CSV" Order="Secondary" Command="{Binding NavigateToFileIOCommand}"/>
+    </CarouselPage.ToolbarItems>
+    <ContentPage>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Label Text="Welcome to infoGraph! It is awesome!" 
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand"
+               Grid.Row="1"/>
+            <CollectionView Grid.Row="2"
+                        x:Name="ItemsCollection"
+                        ItemsSource="{Binding TableValues}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"  Span="{Binding Source={x:Reference ItemsCollection},Path=BindingContext.WidthOfTable}"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button BackgroundColor="AliceBlue" 
+                                BorderColor="Black" 
+                                BorderWidth="1" 
+                                Text="{Binding Value}"
+                                Command="{Binding SelectCellCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="#8B002B"/>
+                                            <Setter Property="TextColor" Value="White"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage>
+
+    <ContentPage>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Label HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Grid.Row="1" Text="Oh my goodness! This graph is absolutely fantastic!"/>
+            <controls:CoordAxesControl Grid.Row="2"
+                                       PointCoordinates="{Binding GraphCoordinates, Mode=OneWay}"
+                                       EnableTouchEvents="False"/>
+        </Grid>
+    </ContentPage>
+
+</CarouselPage>
