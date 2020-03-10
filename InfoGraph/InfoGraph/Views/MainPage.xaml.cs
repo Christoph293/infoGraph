@@ -1,5 +1,6 @@
 ﻿using InfoGraph.ViewModels;
 using SkiaSharp;
+using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

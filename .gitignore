@@ -3,3 +3,15 @@
 ################################################################################
 
 /.vs
+/InfoBookModel/obj
+/InfoBookModel/bin/Debug/netstandard2.0
+/InfoGraph/InfoGraph/bin/Debug/netstandard2.0
+/InfoGraph/InfoGraph/obj
+/InfoGraph/InfoGraph.Android/bin/Debug
+/InfoGraph/InfoGraph.Android/obj
+/InfoGraph/InfoGraph.iOS/bin/iPhone/Debug
+/InfoGraph/InfoGraph.iOS/bin/iPhoneSimulator/Debug
+/InfoGraph/InfoGraph.iOS/obj/iPhone/Debug
+/InfoGraph/InfoGraph.iOS/obj/iPhone/Release
+/InfoGraph/InfoGraph.iOS/obj/iPhoneSimulator/Debug
+/InfoGraph/InfoGraph.iOS/obj

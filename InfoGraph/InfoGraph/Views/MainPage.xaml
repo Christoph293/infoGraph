@@ -69,7 +69,8 @@
             <Label HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Grid.Row="1" Text="Oh my goodness! This graph is absolutely fantastic!"/>
             <controls:CoordAxesControl Grid.Row="2"
                                        PointCoordinates="{Binding GraphCoordinates, Mode=OneWay}"
-                                       EnableTouchEvents="False"/>
+                                       EnableTouchEvents="False"
+                                       IsVisible="True"/>
         </Grid>
     </ContentPage>
 

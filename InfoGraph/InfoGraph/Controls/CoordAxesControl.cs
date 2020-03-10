@@ -35,6 +35,12 @@ namespace InfoGraph.Controls
 
         #endregion
 
+        public CoordAxesControl()
+        {
+            this.PaintSurface += CoordAxesControl_PaintSurface;
+        }
+
+
         #region methods
         private static void DependencyPropertiesChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -45,11 +51,18 @@ namespace InfoGraph.Controls
             {
                 //TODO check why binding is not set in control
                 control.PointCoordinates = (List<Tuple<int, int>>)newValue;
-                control.InvalidateSurface();
+                Device.BeginInvokeOnMainThread(() => control.InvalidateSurface());
+
             }
         }
 
-        
+        private void CoordAxesControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+            var control = (CoordAxesControl)sender;
+
+            control.OnPaintSurface(e);
+        }
+
         /// <summary>
         /// Called method when canvas is drawn
         /// </summary>
