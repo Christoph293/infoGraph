@@ -2,6 +2,7 @@
 using InfoGraphModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -14,18 +15,10 @@ namespace InfoGraph.ViewModels
             :base(navService)
         {
             _fileService = fileService;
+            InitializeExistingFiles();
         }
 
         public Table CurrentTable { get; set; }
-
-        public Command SelectFileCommand
-        {
-            get
-            {
-                return _selectFileCommand ?? (_selectFileCommand = new Command(SelectFile));
-            }
-        }
-        private Command _selectFileCommand;
 
         public Command SaveTableCommand
         {
@@ -35,6 +28,28 @@ namespace InfoGraph.ViewModels
             }
         }
         private Command _saveTableCommand;
+
+        public IEnumerable<FileEntryViewModel> ExistingFiles
+        {
+            get { return _existingFiles; }
+            set { _existingFiles = value; }
+        }
+        private IEnumerable<FileEntryViewModel> _existingFiles;
+
+        private void InitializeExistingFiles()
+        {
+            var files = _fileService.GetExistingFilesInAppDir();
+            ExistingFiles = files.Select(x => new FileEntryViewModel(x)).ToList();
+            foreach (var file in ExistingFiles)
+            {
+                file.EntrySelected += File_EntrySelected;
+            }
+        }
+
+        private void File_EntrySelected(string path)
+        {
+            SelectFile(path);
+        }
 
         public override void Init(Table table)
         {
@@ -46,9 +61,10 @@ namespace InfoGraph.ViewModels
             _fileService.PersistTable(CurrentTable);
         }
     
-        private async void SelectFile()
+        private void SelectFile(string path)
         {
-            var table = await _fileService.PickTableByDialogue();
+            var table = _fileService.LoadTableByPath(path);
+            NavService.NavigateTo<MainViewModel, Table>(table);
         }
     }
 }

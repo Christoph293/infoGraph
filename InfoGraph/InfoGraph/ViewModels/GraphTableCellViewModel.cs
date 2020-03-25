@@ -25,11 +25,24 @@ namespace InfoGraph.ViewModels
         }
         private Command _selectCellCommand;
 
+        public Command ChangeToEditModeCommand
+        {
+            get
+            {
+                return _changeToEditModeCommand ?? (_changeToEditModeCommand = new Command(() => ChangeToEditMode()));
+            }
+        }
+        private Command _changeToEditModeCommand;
+
         public int Value
         {
             get 
             {
                 return _tableCell != null ? _tableCell.Value: 0; 
+            }
+            set
+            {
+                _tableCell.Value = value;
             }
         }
 
@@ -46,6 +59,20 @@ namespace InfoGraph.ViewModels
             }
         }
 
+        public bool IsTextEditable
+        {
+            get
+            {
+                return _isTextEditable;
+            }
+            set
+            {
+                _isTextEditable = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isTextEditable;
+
         private void SelectCell()
         {
             if (IsSelected)
@@ -57,5 +84,11 @@ namespace InfoGraph.ViewModels
                 IsSelected = true;
             }
         }
+
+        private void ChangeToEditMode()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

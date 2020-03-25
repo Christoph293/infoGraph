@@ -1,16 +1,12 @@
 ﻿using InfoGraphModel;
-using Plugin.FilePicker.Abstractions;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfoGraph.Services
 {
     public interface IInfoGraphFileService
     {
-        Task<Table> PickTableByDialogue();
-
+        Table LoadTableByPath(string path);
         void PersistTable(Table table);
+        IEnumerable<string> GetExistingFilesInAppDir();
     }
 }

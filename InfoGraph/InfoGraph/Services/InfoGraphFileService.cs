@@ -6,27 +6,36 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Xamarin.Essentials;
 using System.Threading.Tasks;
 
 namespace InfoGraph.Services
 {
     public class InfoGraphFileService : IInfoGraphFileService
     {
-        public async Task<Table> PickTableByDialogue()
-        {
-            var fileData = await CrossFilePicker.Current.PickFile();
-            if (fileData == null)
-                return null; //user canceled file picking
-
-            Table table = (Table) JsonConvert.DeserializeObject(fileData.GetStream().ToString());
-
-            return table;
-        }
+        readonly string filePrefix = "IGTable_";
+ 
 
         public void PersistTable(Table table)
         {
+            var fileDir = Path.Combine(FileSystem.AppDataDirectory, String.Concat(filePrefix, table.Name));
             var tableJsoned = JsonConvert.SerializeObject(table);
-            File.WriteAllText(table.Name, tableJsoned);
+            File.WriteAllText(fileDir, tableJsoned);
+        }
+
+        public IEnumerable<string> GetExistingFilesInAppDir()
+        {
+            var appDir = FileSystem.AppDataDirectory;
+            var files = Directory.GetFiles(appDir, String.Concat(filePrefix,"*"));
+            return files;
+        }
+
+        public Table LoadTableByPath(string path)
+        {
+            var fileTxt = File.ReadAllText(path);
+            Table table = JsonConvert.DeserializeObject<Table>(fileTxt);
+
+            return table;
         }
     }
 }

@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls ="clr-namespace:InfoGraph.Controls"
              xmlns:converters ="clr-namespace:InfoGraph.Converters"
+             xmlns:behaviors="clr-namespace:InfoGraph.Behaviors"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              mc:Ignorable="d"
              Title="infoGraph"
@@ -41,6 +42,9 @@
                                 BorderWidth="1" 
                                 Text="{Binding Value}"
                                 Command="{Binding SelectCellCommand}">
+                            <Button.Behaviors>
+                                <behaviors:LongPressBehavior Command="{Binding ChangeToEditModeCommand}"/>
+                            </Button.Behaviors>
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Style.Triggers>
